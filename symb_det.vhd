@@ -34,81 +34,35 @@ architecture Behavioral of symb_det is
     constant top: STD_LOGIC_VECTOR(11 DOWNTO 0) := "110000000000"; --3072
     constant bottom: STD_LOGIC_VECTOR(11 DOWNTO 0) := "010000000000"; --1024
     SIGNAL decode_counter: unsigned(7 downto 0);
-
+    signal r0,r1,r2,r3, r4, avg: STD_LOGIC_VECTOR(11 DOWNTO 0);
+    signal sum : STD_LOGIC_VECTOR(13 DOWNTO 0);
 begin
 
+    
     SYNC_PROC: process (clk, clr)
     begin
         if clr ='1' then
             state <= start;
+            counter <= to_unsigned(0, 8);
+            symbol_out <= "000";
+            symbol_valid <= '0';
+            timecount <= to_unsigned(0,13);
         elsif rising_edge(clk) then
             state <= next_state;
-        end if;
-    end process;
-
-    NEXT_STATE_DECODE: PROCESS (state, adc_data)
-    begin
-        next_state <= state;
-    case (state) is
-        when start =>
-            next_state <= check_negative;
-            
-        when check_negative =>
-            if timecount >= 5999 then
-                next_state <= timepassed;
-            elsif adc_data >= top then
-                next_state <= check_positive;
-            else
-                next_state <= check_negative;
-            end if;
-            
-       when check_positive =>
-            if timecount >= 5999 then
-                next_state <= timepassed;
-            elsif adc_data <= bottom then
-                next_state <= check_negative;
-            else
-                next_state <= check_positive;
-            end if;
-
-       when timepassed =>
-            next_state <= check_negative;
-       when others =>
-            next_state <= next_state;
-
-    end case;
-    end process;
-
-    
-
-    
-
-    OUTPUT_DECODE: process (state, next_state,clk)
-    begin
-        if state = start then
-            timecount <= to_unsigned(1,13);
-            counter <= to_unsigned(0, 8);
-            symbol_valid <= '0';
-        end if;
-        
-        if state = check_positive then
-            symbol_valid <= '0';
-            if rising_edge(clk) then
+            if state = start then
+                timecount <= to_unsigned(1,13);
+                counter <= to_unsigned(0, 8);
+           elsif state = check_positive then
+                symbol_valid <= '0';
                 timecount <= timecount + 1;
                 if next_state = check_negative then
                     counter <= counter + 1;
                 end if;
-            end if;
-       end if;
-
-      if state = check_negative then
-            symbol_valid <= '0';
-            if rising_edge(clk) then
+                
+           elsif state = check_negative then
+                symbol_valid <= '0';
                 timecount <= timecount + 1;
-            end if;
-       end if;
-
-       if state = timepassed then
+        elsif state = timepassed then
           if counter >= 130 then
              symbol_valid <= '1';
              symbol_out <= "000"; --0
@@ -151,8 +105,59 @@ begin
           
           timecount <= to_unsigned(1, 13);
           counter <= to_unsigned(0, 8);
-          end if;
+        end if;    
+        end if;
     end process;
+
+    NEXT_STATE_DECODE: PROCESS (state, adc_data,timecount)
+    begin
+        next_state <= state;
+    case (state) is
+        when start =>
+            next_state <= check_negative;
+            
+        when check_negative =>
+            if timecount >= 5999 then
+                next_state <= timepassed;
+            elsif adc_data >= top then
+                next_state <= check_positive;
+            else
+                next_state <= check_negative;
+            end if;
+            
+       when check_positive =>
+            if timecount >= 5999 then
+                next_state <= timepassed;
+            elsif adc_data <= bottom then
+                next_state <= check_negative;
+            else
+                next_state <= check_positive;
+            end if;
+
+       when timepassed =>
+            next_state <= check_negative;
+       when others =>
+            next_state <= state;
+
+    end case;
+    end process;
+
+    
+
+    
+
+--    OUTPUT_DECODE: process (state, next_state)
+--    begin
+--        if state = start then
+--            symbol_valid <= '0';
+        
+--        elsif state = check_positive then
+--            symbol_valid <= '0';
+
+--        elsif state = check_negative then
+--            symbol_valid <= '0';
+--        end if;
+--    end process;
 
 
 end Behavioral;
