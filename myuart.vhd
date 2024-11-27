@@ -108,7 +108,7 @@ begin
 
     -- UART transmission state machine
 
-    process(clk, clr)
+    SYNC_PROC: process(clk, clr)
 
     begin
 
@@ -119,8 +119,12 @@ begin
             baud_counter <= x"0";
 
             repeat_counter <= x"0";
-
             
+            data_reg(9 downto 0) <= "1000000001";
+            
+            data_temp <= '1';
+            
+            sout <= '0';
 
         elsif rising_edge(clk) then
 
@@ -161,6 +165,8 @@ begin
                                     state <= IDLE;
 
                                     repeat_counter <= x"0";
+
+                                    
 
                                 else
 
