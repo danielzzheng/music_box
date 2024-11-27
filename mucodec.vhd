@@ -53,160 +53,63 @@ architecture Behavioral of mcdecoder is
                         St_SPACE, St_EXCLAMATION, St_PERIOD, St_QUESTION);
 
 
-
-    
-
-
-
     signal state, next_state : state_type := St_RESET;
-
-
 
     signal tmp_error: std_logic := '0';
 
     signal tmp_valid: std_logic := '0';
 
 
-
-    
-
-
-
 BEGIN
-
-
 
     -- Synchronous state transition process
 
-
-
     sync_process : PROCESS (clk, clr)
 
-
-
     BEGIN
-
-
-
         IF clr = '1' THEN
-
             state <= St_RESET;
-
             dvalid <= '0';
-
-
-
+            
         ELSIF rising_edge(clk) THEN
-
-
-
             state <= next_state;
-
             dvalid <= tmp_valid;
-
-
-
-
-
         END IF;
 
-
-
     END PROCESS;
-
-
-
-
-
-
-
     state_logic: process (state, din, valid) --add valid here with if statement surrounding entire state logic to allow din to be ignore when valid = '0'
-
-
-
     begin
 
-
-
-
-
-
-
         next_state <= state;
-
-
-
-        
-
-
 
         if valid = '1' then
 
             tmp_valid <= '0';
 
             case(state) is
-
-
-
                 when St_RESET => 
 
-
-
                     if (din="000") then
-
-
-
                         next_state <= St_0;
-
-
-
                     else
-
-
 
                         next_state <= St_ERROR; -- Avoid redundant state repetition
 
-
-
                     end if;
-
-
-
-    
-
-
 
                 when St_ERROR =>
 
-
-
                     next_state <= St_RESET;
-
-
-
-    
-
-
 
                 when St_0 =>
 
-
-
                     if (din="111") then
-
-
 
                         next_state <= St_07;
 
-
-
                     else
 
-
-
                         next_state <= St_RESET;
-
-
 
                     end if;
 
@@ -380,11 +283,8 @@ BEGIN
 
                     else
 
-
-
+                        tmp_valid <= '0';
                         next_state <= St_ERROR;
-
-
 
                     end if;           
 
@@ -935,7 +835,8 @@ BEGIN
                 end case;
 
 
-
+        else 
+            tmp_valid <= '0';
         end if;
 
 
@@ -1097,7 +998,6 @@ BEGIN
 
 
 end Behavioral;
-
 
 
 
