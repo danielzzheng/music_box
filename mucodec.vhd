@@ -45,7 +45,7 @@ BEGIN
 
         IF clr = '1' THEN
             state <= St_RESET;
-            dvalid <= '0'
+            dvalid <= '0';
 
         ELSIF rising_edge(clk) THEN
 
