@@ -34,12 +34,46 @@ architecture Behavioral of symb_det is
     constant top: STD_LOGIC_VECTOR(11 DOWNTO 0) := "110000000000"; --3072
     constant bottom: STD_LOGIC_VECTOR(11 DOWNTO 0) := "010000000000"; --1024
     SIGNAL decode_counter: unsigned(7 downto 0);
-    signal r0,r1,r2,r3, r4, avg: STD_LOGIC_VECTOR(11 DOWNTO 0);
-    signal sum : STD_LOGIC_VECTOR(13 DOWNTO 0);
-begin
-
     
-    SYNC_PROC: process (clk, clr)
+    signal r1 : std_logic_vector(14 downto 0);  -- 12 bits for ADC data
+    signal r2 : std_logic_vector(14 downto 0);
+    signal r3 : std_logic_vector(14 downto 0);
+    signal r4 : std_logic_vector(14 downto 0);
+    signal r5 : std_logic_vector(14 downto 0);
+    signal r6 : std_logic_vector(14 downto 0);
+    signal r7 : std_logic_vector(14 downto 0);
+    signal r8 : std_logic_vector(14 downto 0);
+    signal sum : std_logic_vector(14 downto 0);  -- Adjusted for sum of 8 registers
+    signal avg : std_logic_vector(11 downto 0);
+begin
+    
+    MA_PROC: process (clk, clr) begin     
+        if clr ='1' then                  
+            r1 <= (others => '0');       
+            r2 <= (others => '0');       
+            r3 <= (others => '0');       
+            r4 <= (others => '0');       
+            r5 <= (others => '0');       
+            r6 <= (others => '0');       
+            r7 <= (others => '0');       
+            r8 <= (others => '0');       
+            sum <= (others => '0');      
+            avg <= (others => '0');        
+        elsif rising_edge(clk) then       
+            r1 (11 downto 0) <= adc_data;    
+            r2 <= r1;                       
+            r3 <= r2;                       
+            r4 <= r3;                       
+            r5 <= r4;                       
+            r6 <= r5;                       
+            r7 <= r6;                       
+            r8 <= r7;                       
+            sum <= (r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8);           
+            avg <= sum(14 downto 3);     
+        end if;                           
+    end process;
+    
+    SYNC_PROC: process (clk, clr, avg)
     begin
         if clr ='1' then
             state <= start;
@@ -119,7 +153,7 @@ begin
         when check_negative =>
             if timecount >= 5999 then
                 next_state <= timepassed;
-            elsif adc_data >= top then
+            elsif avg >= top then
                 next_state <= check_positive;
             else
                 next_state <= check_negative;
@@ -128,7 +162,7 @@ begin
        when check_positive =>
             if timecount >= 5999 then
                 next_state <= timepassed;
-            elsif adc_data <= bottom then
+            elsif avg <= bottom then
                 next_state <= check_negative;
             else
                 next_state <= check_positive;
