@@ -70,7 +70,7 @@ BEGIN
         
 
         if valid = '1' then
-            temp_valid <= '0';
+            tmp_valid <= '0';
             case(state) is
 
                 when St_RESET => 
@@ -164,27 +164,27 @@ BEGIN
                 when St_1 =>
 
                     if (din="010") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_A;
 
                     elsif (din="011") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_B;
 
                     elsif (din="100") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_C;
 
                     elsif (din="101") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_D;
 
                     elsif (din="110") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_E;
 
@@ -199,27 +199,27 @@ BEGIN
                 when St_2 =>
 
                     if (din="001") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_F;
 
                     elsif (din="011") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_G;
 
                     elsif (din="100") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_H;
 
                     elsif (din="101") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_I;
 
                     elsif (din="110") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_J;
 
@@ -234,27 +234,27 @@ BEGIN
                 when St_3 =>
 
                     if (din="001") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_K;
 
                     elsif (din="010") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_L;
 
                     elsif (din="100") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_M;
 
                     elsif (din="101") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_N;
 
                     elsif (din="110") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_O;
 
@@ -269,27 +269,27 @@ BEGIN
                 when St_4 =>
 
                     if (din="001") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_P;
 
                     elsif (din="010") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_Q;
 
                     elsif (din="011") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_R;
 
                     elsif (din="101") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_S;
 
                     elsif (din="110") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_T;
 
@@ -304,27 +304,27 @@ BEGIN
                 when St_5 =>
 
                     if (din="001") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_U;
 
                     elsif (din="010") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_V;
 
                     elsif (din="011") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_W;
 
                     elsif (din="100") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_X;
 
                     elsif (din="110") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_Y;
 
@@ -339,27 +339,27 @@ BEGIN
                 when St_6 =>
 
                     if (din="001") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_Z;
 
                     elsif (din="010") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_EXCLAMATION;
 
                     elsif (din="011") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_PERIOD;
 
                     elsif (din="100") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_QUESTION;
 
                     elsif (din="101") then
-                        temp_valid <= '1';
+                        tmp_valid <= '1';
 
                         next_state <= St_SPACE;
 
