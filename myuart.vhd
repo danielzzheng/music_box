@@ -1,3 +1,27 @@
+----------------------------------------------------------------------------------
+-- Company: Computer Architecture and System Research (CASR), HKU, Hong Kong
+-- Engineer:
+-- 
+-- Create Date: 09/09/2022 06:20:56 PM
+-- Design Name: system top
+-- Module Name: uart
+-- Project Name: Music Decoder
+-- Target Devices: Xilinx Basys3
+-- Tool Versions: Vivado 2022.1
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
