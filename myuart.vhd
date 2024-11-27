@@ -79,6 +79,7 @@ begin
 
                                 if (repeat_counter = 9) then
                                     state <= IDLE;
+                                    repeat_counter <= x"0";
                                 else
                                     data_reg(8) <= data_reg(9);
                                     data_reg(7) <= data_reg(8);                            
