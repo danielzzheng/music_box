@@ -1,23 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: Computer Architecture and System Research (CASR), HKU, Hong Kong
--- Engineer: Mo Song
--- 
--- Create Date: 09/09/2022 06:20:56 PM
--- Design Name: system top
--- Module Name: top - Behavioral
--- Project Name: Music Decoder
--- Target Devices: Xilinx Basys3
--- Tool Versions: Vivado 2022.1
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
@@ -51,6 +31,7 @@ architecture Behavioral of mcdecoder is
     signal state, next_state : state_type := St_RESET;
 
     signal tmp_error: std_logic := '0';
+    signal tmp_valid: std_logic := '0';
 
     
 
@@ -68,6 +49,8 @@ BEGIN
         ELSIF rising_edge(clk) THEN
 
             state <= next_state;
+            dvalid <= tmp_valid;
+
 
         END IF;
 
@@ -86,7 +69,7 @@ BEGIN
         
 
         if valid = '1' then
-
+            tmp_valid <= '0';
             case(state) is
 
                 when St_RESET => 
@@ -180,22 +163,27 @@ BEGIN
                 when St_1 =>
 
                     if (din="010") then
+                        tmp_valid <= '1';
 
                         next_state <= St_A;
 
                     elsif (din="011") then
+                        tmp_valid <= '1';
 
                         next_state <= St_B;
 
                     elsif (din="100") then
+                        tmp_valid <= '1';
 
                         next_state <= St_C;
 
                     elsif (din="101") then
+                        tmp_valid <= '1';
 
                         next_state <= St_D;
 
                     elsif (din="110") then
+                        tmp_valid <= '1';
 
                         next_state <= St_E;
 
@@ -210,22 +198,27 @@ BEGIN
                 when St_2 =>
 
                     if (din="001") then
+                        tmp_valid <= '1';
 
                         next_state <= St_F;
 
                     elsif (din="011") then
+                        tmp_valid <= '1';
 
                         next_state <= St_G;
 
                     elsif (din="100") then
+                        tmp_valid <= '1';
 
                         next_state <= St_H;
 
                     elsif (din="101") then
+                        tmp_valid <= '1';
 
                         next_state <= St_I;
 
                     elsif (din="110") then
+                        tmp_valid <= '1';
 
                         next_state <= St_J;
 
@@ -240,22 +233,27 @@ BEGIN
                 when St_3 =>
 
                     if (din="001") then
+                        tmp_valid <= '1';
 
                         next_state <= St_K;
 
                     elsif (din="010") then
+                        tmp_valid <= '1';
 
                         next_state <= St_L;
 
                     elsif (din="100") then
+                        tmp_valid <= '1';
 
                         next_state <= St_M;
 
                     elsif (din="101") then
+                        tmp_valid <= '1';
 
                         next_state <= St_N;
 
                     elsif (din="110") then
+                        tmp_valid <= '1';
 
                         next_state <= St_O;
 
@@ -270,22 +268,27 @@ BEGIN
                 when St_4 =>
 
                     if (din="001") then
+                        tmp_valid <= '1';
 
                         next_state <= St_P;
 
                     elsif (din="010") then
+                        tmp_valid <= '1';
 
                         next_state <= St_Q;
 
                     elsif (din="011") then
+                        tmp_valid <= '1';
 
                         next_state <= St_R;
 
                     elsif (din="101") then
+                        tmp_valid <= '1';
 
                         next_state <= St_S;
 
                     elsif (din="110") then
+                        tmp_valid <= '1';
 
                         next_state <= St_T;
 
@@ -300,22 +303,27 @@ BEGIN
                 when St_5 =>
 
                     if (din="001") then
+                        tmp_valid <= '1';
 
                         next_state <= St_U;
 
                     elsif (din="010") then
+                        tmp_valid <= '1';
 
                         next_state <= St_V;
 
                     elsif (din="011") then
+                        tmp_valid <= '1';
 
                         next_state <= St_W;
 
                     elsif (din="100") then
+                        tmp_valid <= '1';
 
                         next_state <= St_X;
 
                     elsif (din="110") then
+                        tmp_valid <= '1';
 
                         next_state <= St_Y;
 
@@ -330,22 +338,27 @@ BEGIN
                 when St_6 =>
 
                     if (din="001") then
+                        tmp_valid <= '1';
 
                         next_state <= St_Z;
 
                     elsif (din="010") then
+                        tmp_valid <= '1';
 
                         next_state <= St_EXCLAMATION;
 
                     elsif (din="011") then
+                        tmp_valid <= '1';
 
                         next_state <= St_PERIOD;
 
                     elsif (din="100") then
+                        tmp_valid <= '1';
 
                         next_state <= St_QUESTION;
 
                     elsif (din="101") then
+                        tmp_valid <= '1';
 
                         next_state <= St_SPACE;
 
@@ -465,69 +478,69 @@ BEGIN
 
         CASE state IS
 
-            WHEN St_A   => dout <= "01000001"; dvalid<='1'; error <= '0'; -- ASCII for 'A'
+            WHEN St_A   => dout <= "01000001"; error <= '0'; -- ASCII for 'A'
 
-            WHEN St_B   => dout <= "01000010"; dvalid<='1'; error <= '0';  -- ASCII for 'B'
+            WHEN St_B   => dout <= "01000010";  error <= '0';  -- ASCII for 'B'
 
-            WHEN St_C   => dout <= "01000011"; dvalid<='1'; error <= '0';   -- ASCII for 'C'
+            WHEN St_C   => dout <= "01000011";  error <= '0';   -- ASCII for 'C'
 
-            WHEN St_D   => dout <= "01000100"; dvalid<='1'; error <= '0';   -- ASCII for 'D'
+            WHEN St_D   => dout <= "01000100";  error <= '0';   -- ASCII for 'D'
 
-            WHEN St_E   => dout <= "01000101"; dvalid<='1'; error <= '0';  -- ASCII for 'E'
+            WHEN St_E   => dout <= "01000101";  error <= '0';  -- ASCII for 'E'
 
-            WHEN St_F   => dout <= "01000110"; dvalid<='1'; error <= '0';   -- ASCII for 'F'
+            WHEN St_F   => dout <= "01000110";  error <= '0';   -- ASCII for 'F'
 
-            WHEN St_G   => dout <= "01000111"; dvalid<='1'; error <= '0';   -- ASCII for 'G'
+            WHEN St_G   => dout <= "01000111";  error <= '0';   -- ASCII for 'G'
 
-            WHEN St_H   => dout <= "01001000"; dvalid<='1'; error <= '0';   -- ASCII for 'H'
+            WHEN St_H   => dout <= "01001000";  error <= '0';   -- ASCII for 'H'
 
-            WHEN St_I   => dout <= "01001001"; dvalid<='1'; error <= '0';   -- ASCII for 'I'
+            WHEN St_I   => dout <= "01001001";  error <= '0';   -- ASCII for 'I'
 
-            WHEN St_J   => dout <= "01001010"; dvalid<='1'; error <= '0';   -- ASCII for 'J'
+            WHEN St_J   => dout <= "01001010";  error <= '0';   -- ASCII for 'J'
 
-            WHEN St_K   => dout <= "01001011"; dvalid<='1'; error <= '0';   -- ASCII for 'K'
+            WHEN St_K   => dout <= "01001011";  error <= '0';   -- ASCII for 'K'
 
-            WHEN St_L   => dout <= "01001100"; dvalid<='1'; error <= '0';   -- ASCII for 'L'
+            WHEN St_L   => dout <= "01001100";  error <= '0';   -- ASCII for 'L'
 
-            WHEN St_M   => dout <= "01001101"; dvalid<='1'; error <= '0';   -- ASCII for 'M'
+            WHEN St_M   => dout <= "01001101";  error <= '0';   -- ASCII for 'M'
 
-            WHEN St_N   => dout <= "01001110"; dvalid<='1'; error <= '0';   -- ASCII for 'N'
+            WHEN St_N   => dout <= "01001110";  error <= '0';   -- ASCII for 'N'
 
-            WHEN St_O   => dout <= "01001111"; dvalid<='1'; error <= '0';   -- ASCII for 'O'
+            WHEN St_O   => dout <= "01001111";  error <= '0';   -- ASCII for 'O'
 
-            WHEN St_P   => dout <= "01010000"; dvalid<='1'; error <= '0';   -- ASCII for 'P'
+            WHEN St_P   => dout <= "01010000";  error <= '0';   -- ASCII for 'P'
 
-            WHEN St_Q   => dout <= "01010001"; dvalid<='1'; error <= '0';   -- ASCII for 'Q'
+            WHEN St_Q   => dout <= "01010001";  error <= '0';   -- ASCII for 'Q'
 
-            WHEN St_R   => dout <= "01010010"; dvalid<='1'; error <= '0';   -- ASCII for 'R'
+            WHEN St_R   => dout <= "01010010";  error <= '0';   -- ASCII for 'R'
 
-            WHEN St_S   => dout <= "01010011"; dvalid<='1'; error <= '0';   -- ASCII for 'S'
+            WHEN St_S   => dout <= "01010011";  error <= '0';   -- ASCII for 'S'
 
-            WHEN St_T   => dout <= "01010100"; dvalid<='1'; error <= '0';   -- ASCII for 'T'
+            WHEN St_T   => dout <= "01010100";  error <= '0';   -- ASCII for 'T'
 
-            WHEN St_U   => dout <= "01010101"; dvalid<='1'; error <= '0';   -- ASCII for 'U'
+            WHEN St_U   => dout <= "01010101";  error <= '0';   -- ASCII for 'U'
 
-            WHEN St_V   => dout <= "01010110"; dvalid<='1'; error <= '0';   -- ASCII for 'V'
+            WHEN St_V   => dout <= "01010110";  error <= '0';   -- ASCII for 'V'
 
-            WHEN St_W   => dout <= "01010111"; dvalid<='1'; error <= '0';   -- ASCII for 'W'
+            WHEN St_W   => dout <= "01010111";  error <= '0';   -- ASCII for 'W'
 
-            WHEN St_X   => dout <= "01011000"; dvalid<='1'; error <= '0';   -- ASCII for 'X'
+            WHEN St_X   => dout <= "01011000";  error <= '0';   -- ASCII for 'X'
 
-            WHEN St_Y   => dout <= "01011001"; dvalid<='1'; error <= '0';   -- ASCII for 'Y'
+            WHEN St_Y   => dout <= "01011001";  error <= '0';   -- ASCII for 'Y'
 
-            WHEN St_Z   => dout <= "01011010"; dvalid<='1'; error <= '0';   -- ASCII for 'Z'
+            WHEN St_Z   => dout <= "01011010";  error <= '0';   -- ASCII for 'Z'
 
-            WHEN St_SPACE => dout <= "00100000"; dvalid<='1'; error <= '0';   -- ASCII for 'Space'
+            WHEN St_SPACE => dout <= "00100000";  error <= '0';   -- ASCII for 'Space'
 
-            WHEN St_EXCLAMATION => dout <= "00100001"; dvalid<='1'; error <= '0';   -- ASCII for '!'
+            WHEN St_EXCLAMATION => dout <= "00100001";  error <= '0';   -- ASCII for '!'
 
-            WHEN St_PERIOD => dout <= "00101110"; dvalid<='1'; error <= '0';   -- ASCII for '.'
+            WHEN St_PERIOD => dout <= "00101110";  error <= '0';   -- ASCII for '.'
 
-            WHEN St_QUESTION => dout <= "00111111"; dvalid<='1'; error <= '0';   -- ASCII for '?'
+            WHEN St_QUESTION => dout <= "00111111";  error <= '0';   -- ASCII for '?'
             
-            WHEN St_ERROR => dout <= "00000000"; dvalid<='0'; error <= '1'; -- Error state
+            WHEN St_ERROR => dout <= "00000000";  error <= '1'; -- Error state
 
-            WHEN OTHERS => dout <= "00000000"; dvalid<='0'; error <= '0';   -- Default to zero
+            WHEN OTHERS => dout <= "00000000"; error <= '0';   -- Default to zero
 
         END CASE;
 
